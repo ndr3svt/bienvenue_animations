@@ -2,11 +2,12 @@ let imageBackground;
 let blobs;
 let blobSmall;
 let blobBig;
-let w_m = 960;
-let h_m = 540;
+let w_m = 1920;
+let h_m = 1080;
 let tBlobs = Array(18);
 let blobPos = Array[18];
-let scaleFactor = 2;
+let mainScaleFactor=2;
+let scaleFactorBlob = 2.2;
 
 function preload() {
   imageBackground = loadImage("animation_1_background.png");
@@ -15,12 +16,7 @@ function preload() {
   blobBig = loadImage("blob_big.png");
 }
 
-
 function positions(){
-  // for(let i =0; i< 19; i ++){
-  //  blobPos 
-  // }
-
   let width = 3;
   let height = 6;
 
@@ -30,34 +26,24 @@ function positions(){
       let freq = getRandomFloat(0.005,0.15);
       if(x % 2 !== 0 && x!==0){
         console.log('x = ' + x)
-
-        let sW = blobSmall.width/scaleFactor*1.5;
-        let sH = blobSmall.height/scaleFactor*1.5;
-        let offsetX = (blobSmall.width/scaleFactor*0.65);
-        let offsetY = blobSmall.height/scaleFactor *0.25;
-        
-        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactor - offsetX , y*blobSmall.height/scaleFactor -offsetY, sW,sH,'small', freq)
+        let sW = blobSmall.width/scaleFactorBlob*1.5;
+        let sH = blobSmall.height/scaleFactorBlob*1.5;
+        let offsetX = (blobSmall.width/scaleFactorBlob*0.5);
+        let offsetY = blobSmall.height/scaleFactorBlob *0.25;
+        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob - offsetX , y*blobSmall.height/scaleFactorBlob -offsetY, sW,sH,'big', freq)
       }else{
-        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactor, y*blobSmall.height/scaleFactor, blobSmall.width/scaleFactor, blobSmall.height/scaleFactor,'small', freq)
+        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small', freq)
       }
-      
       console.log(`index: ${index}, x: ${x}, y: ${y}`);
   }
 
 }
 function setup() {
-  createCanvas(960, 540);
+  w_m= w_m/mainScaleFactor;
+  h_m = h_m/mainScaleFactor;
+  createCanvas(w_m, h_m);
   positions();
-  // let index=0;
-  // for(let i = 0; i< 19;i++){
-  //   tBlobs[i] = new Blob(i*20, 50, 20, 20);
-  // }
-  // for(let i = 0; i<3; i++){
-  //   for(let j = 0; j<6;j++){
-  //     tBlobs[index] = new Blob(j*blobSmall.width,i*blobSmall.height, blobSmall.width, blobSmall.height,"small");
-  //     index++;
-  //   }
-  // }
+
 }
 
 function draw() {
