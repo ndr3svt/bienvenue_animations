@@ -1,3 +1,8 @@
+/* https://sooft.studio */
+/* Interaction Design and Cutting Edge Technology */
+/* written by Andres Villa Torres aka ndr3svt */
+/* Zurich/Venice May 2023 */
+/* for Bienvenue Studios */
 let imageBackground;
 let blobs;
 let blobSmall;
@@ -6,9 +11,13 @@ let w_m = 1920;
 let h_m = 1080;
 let tBlobs = Array(18);
 let blobPos = Array[18];
-let mainScaleFactor=2;
-let scaleFactorBlob = 2.2;
+let mainScaleFactor=1.5;
+let scaleFactorBlob = 1.65;
 let toggleDebug=false;
+let toggleBckImg =true;
+let toggleBckgrnd=true;
+let toggleDispBlobs=true;
+
 function preload() {
   imageBackground = loadImage("animation_1_background.png");
   blobs = loadImage("animation_1_blobs.png");
@@ -49,57 +58,70 @@ function setup() {
 }
 
 function draw() {
-  background(0);
-  tint(255,255);
-  image(imageBackground, 0, 0,w_m,h_m);
-  push();
-
-
-  translate(124/mainScaleFactor,124/mainScaleFactor);
-  /* drawing first row */
-  for(let i =0; i< tBlobs.length-1;i++){
-    let y = i % 3;
-    let x = Math.floor(i/6);
-    
-    if(y==0){
-      tBlobs[i].display();
-    }
+  if(toggleBckgrnd){
+    background(100,100,125);
   }
-
-  /* drawing second row */
-  for(let i = 0; i<tBlobs.length-1;i++){
-    let y = i % 3;
-    let x = Math.floor(i/6);
-    if(y % 2 !== 0 ){
-      push();
-      rotate(radians(180));
-      translate(-1672/mainScaleFactor,- 586/mainScaleFactor )
-      tBlobs[i].display();
-      pop();
-    }
-  }
-
-  /* drawing third row */
-  for(let i = 0; i<tBlobs.length-1;i++){
-    let y = i % 3;
-    let x = Math.floor(i/6);
-    if(y==2){
-      tBlobs[i].display();
-    }
+  if(toggleBckImg){
+    tint(255,255);
+    image(imageBackground, 0, 0,w_m,h_m);
   }
   
+  push();
+  translate(124/mainScaleFactor,124/mainScaleFactor);
+  
+  if(toggleDispBlobs){
+    /* drawing first row */
+    for(let i =0; i< tBlobs.length-1;i++){
+      let y = i % 3;
+      let x = Math.floor(i/6);
+      
+      if(y==0){
+        tBlobs[i].display();
+      }
+    }
+
+    /* drawing second row */
+    for(let i = 0; i<tBlobs.length-1;i++){
+      let y = i % 3;
+      let x = Math.floor(i/6);
+      if(y % 2 !== 0 ){
+        push();
+        rotate(radians(180));
+        translate(-1672/mainScaleFactor,- 586/mainScaleFactor )
+        tBlobs[i].display();
+        pop();
+      }
+    }
+
+    /* drawing third row */
+    for(let i = 0; i<tBlobs.length-1;i++){
+      let y = i % 3;
+      let x = Math.floor(i/6);
+      if(y==2){
+        tBlobs[i].display();
+      }
+    }
+  }else{
+    for(let i =0; i< tBlobs.length-1;i++){
+      tBlobs[i].update();
+    }
+  }
   debugAnchors();
   pop();
   printMouse();
- 
 }
 
-
-
 function keyPressed() {
-  if (key === 'a' || key === 'A') {
+  if (key === 'd' || key === 'D') {
     toggleDebug=!toggleDebug;
   }
+  if (key === 'b' || key === 'B') {
+    toggleBckgrnd=!toggleBckgrnd;
+  }
+  if (key === 'i' || key === 'I') {
+    toggleBckImg=!toggleBckImg;
+  }
+
 }
 
 function getRandomFloat(min, max) { 
@@ -109,7 +131,7 @@ function getRandomFloat(min, max) {
 
 function printMouse(){
   let consola = document.querySelector('#output');
-  consola.innerHTML = `mx: ${mouseX}, my: ${mouseY}`
+  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY}`
 }
 
 function debugAnchors(){
@@ -136,13 +158,34 @@ function debugAnchors(){
 
 function toggleDebugAnchors() {
   if(document.getElementById("myCheckbox").checked) {
-
     toggleDebug=true;
   }else{
     toggleDebug=false;
   }
 }
 
+function toggleBackground(){
+  if(document.getElementById("checkBoxBackground").checked) {
+    toggleBckgrnd=true;
+  }else{
+    toggleBckgrnd=false;
+  }
+}
+function toggleBackgroundImage(){
+  if(document.getElementById("checkBoxBackgroundImg").checked) {
+    toggleBckImg=true;
+  }else{
+    toggleBckImg=false;
+  }
+}
+
+function toggleDisplayBlobs(){
+  if(document.getElementById("checkBoxBlobs").checked) {
+    toggleDispBlobs=true;
+  }else{
+    toggleDispBlobs=false;
+  }
+}
 
 
 
@@ -167,44 +210,45 @@ class Blob{
     this.scale =1;
     this.oscOpacity=255;
     this.time = 0;
-    this.freq= _freq*getRandomFloat(0.5,0.5);
+    this.freq= _freq*getRandomFloat(0.45,0.55);
     this.time2=0;
-    this.freq2 = _freq*getRandomFloat(0.5,0.5);
+    this.freq2 = _freq*getRandomFloat(0.75,0.95);
   }
 
   display(){
     // tint(255,this.oscOpacity);
     tint(255,255)
     image(this.blobImg, this.x+this.offsetx+this.ox, this.y+this.offsety + this.oy, this.w, this.h);
-   
     this.update();
   }
 
   displayAnchor(){
-    let x = this.x + this.ox;
-    let y = this.y + this.oy;
+    let x = this.x + this.ox +this.offsetx;
+    let y = this.y + this.oy +this.offsety;
     tint(255,255);
     noStroke();
     fill(255,0,0);
-    ellipse(x,y,2,2);
-    stroke(0,255,0);
-    strokeWeight(0.5);
-    noFill();
-    line(x-15,y,x+15,y)
-    line(x,y-15,x,y+15)
-    strokeWeight(0.5);
-    stroke(255,255,0);
-    rect(x,y,this.w,this.h)
+    ellipse(x+this.w/2,y+this.h/2,2,2);
+    if(toggleBckgrnd){
+      stroke(0,255,0);
+      strokeWeight(0.5);
+      noFill();
+      line(x-15,y,x+15,y)
+      line(x,y-15,x,y+15)
+      strokeWeight(0.5);
+      stroke(255,255,0);
+    
+      rect(x,y,this.w,this.h)
+    }
   }
   update(){
     this.time+=this.freq;
-    this.time2+=this.freq;
-    
+    this.time2+=this.freq2;
     this.oscOpacity=map(Math.sin(this.time), -1,1,155,255);
 
     /* play with the scale */
-    // this.ox = map(Math.sin(this.time2), -1,1,0.9,1.1);
-    // this.oy = map(Math.sin(this.time), -1,1,-10,10);
+    this.ox = map(Math.sin(this.time2), -1,1,-20,20);
+    this.oy = map(Math.sin(this.time), -1,1,-20,20);
     // this.w = map(Math.sin(this.time), -1,1, this.ow*this.ox,this.ow*this.ox);
     this.scale =map(Math.sin(this.time2), -1,1,0.85,1.15);
     this.w = this.ow*this.scale;
