@@ -89,13 +89,15 @@ class Blob{
     }else if(_type =="small_mirrored"){
       this.blobImg = blobSmallMirr;
     }
+    this.ow = _w;
+    this.oh = _h;
     this.w = _w;
     this.h = _h;
     this.oscOpacity=255;
     this.time = 0;
-    this.freq= _freq;
+    this.freq= _freq*getRandomFloat(0.5,0.25);
     this.time2=0;
-    this.freq2 = _freq*getRandomFloat(0.5,1.5);
+    this.freq2 = _freq*getRandomFloat(0.15,0.5);
   }
 
   display(){
@@ -127,6 +129,8 @@ class Blob{
     this.oscOpacity=map(Math.sin(this.time), -1,1,155,255);
     this.ox = map(Math.sin(this.time2), -1,1,-8,8);
     this.oy = map(Math.sin(this.time), -1,1,-10,10);
+    this.w = map(Math.sin(this.time), -1,1, this.ow-20,this.ow+20);
+    this.h = map(Math.sin(this.time2), -1,1, this.oh-10,this.oh+10);
 
   }
 }
@@ -169,3 +173,11 @@ function debugAnchors(){
   }
 }
 
+function toggleDebugAnchors() {
+  if(document.getElementById("myCheckbox").checked) {
+    // alert("Checkbox is checked!");
+    toggleDebug=true;
+  }else{
+    toggleDebug=false;
+  }
+}
