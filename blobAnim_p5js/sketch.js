@@ -45,7 +45,7 @@ function positions(){
       }else{
         tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small', freq)
       }
-      console.log(`index: ${index}, x: ${x}, y: ${y}`);
+      // console.log(`index: ${index}, x: ${x}, y: ${y}`);
   }
 
 }
@@ -70,16 +70,15 @@ function draw() {
   translate(124/mainScaleFactor,124/mainScaleFactor);
   
   if(toggleDispBlobs){
-    /* drawing first row */
-    for(let i =0; i< tBlobs.length-1;i++){
+    
+    /* drawing third row */
+    for(let i = 0; i<tBlobs.length-1;i++){
       let y = i % 3;
       let x = Math.floor(i/6);
-      
-      if(y==0){
+      if(y==2){
         tBlobs[i].display();
       }
     }
-
     /* drawing second row */
     for(let i = 0; i<tBlobs.length-1;i++){
       let y = i % 3;
@@ -92,15 +91,16 @@ function draw() {
         pop();
       }
     }
-
-    /* drawing third row */
-    for(let i = 0; i<tBlobs.length-1;i++){
+    /* drawing first row */
+    for(let i =0; i< tBlobs.length-1;i++){
       let y = i % 3;
       let x = Math.floor(i/6);
-      if(y==2){
+      
+      if(y==0){
         tBlobs[i].display();
       }
     }
+    
   }else{
     for(let i =0; i< tBlobs.length-1;i++){
       tBlobs[i].update();
@@ -213,12 +213,18 @@ class Blob{
     this.freq= _freq*getRandomFloat(0.45,0.55);
     this.time2=0;
     this.freq2 = _freq*getRandomFloat(0.75,0.95);
+    this.rot=0;
   }
 
   display(){
     // tint(255,this.oscOpacity);
-    tint(255,255)
-    image(this.blobImg, this.x+this.offsetx+this.ox, this.y+this.offsety + this.oy, this.w, this.h);
+    tint(255,255);
+    push()
+    translate(this.x+this.offsetx+this.ox, this.y+this.offsety + this.oy);
+    // rotate(this.rot);
+    // translate(-this.w/2,-this.h/2)
+    image(this.blobImg,0 , 0, this.w, this.h);
+    pop()
     this.update();
   }
 
@@ -228,7 +234,7 @@ class Blob{
     tint(255,255);
     noStroke();
     fill(255,0,0);
-    ellipse(x+this.w/2,y+this.h/2,2,2);
+    ellipse(x+this.w/2,y+this.h/2,3,3);
     if(toggleBckgrnd){
       stroke(0,255,0);
       strokeWeight(0.5);
@@ -242,14 +248,27 @@ class Blob{
     }
   }
   update(){
-    this.time+=this.freq;
-    this.time2+=this.freq2;
+    /* Oscillating time functions */
+    if(this.time<=10 && this.time>=0){
+      this.time+=this.freq;
+    }else{
+      this.freq= this.freq*(-1);
+      this.time+=this.freq;
+    }
+    if(this.time2<=10 && this.time2>=0){
+      this.time2+=this.freq2;
+    }else{
+      this.freq2= this.freq2*(-1);
+      this.time2+=this.freq2;
+    }
+    /* opacity oscillation */
     this.oscOpacity=map(Math.sin(this.time), -1,1,155,255);
 
-    /* play with the scale */
+     /* play with x y movement*/
     this.ox = map(Math.sin(this.time2), -1,1,-20,20);
     this.oy = map(Math.sin(this.time), -1,1,-20,20);
-    // this.w = map(Math.sin(this.time), -1,1, this.ow*this.ox,this.ow*this.ox);
+
+     /* play with the scale */
     this.scale =map(Math.sin(this.time2), -1,1,0.85,1.15);
     this.w = this.ow*this.scale;
     this.h = this.oh*this.scale;
@@ -257,5 +276,8 @@ class Blob{
     this.offsety = (this.ow-this.w)/2;
     // this.h = map(Math.sin(this.time2), -1,1, this.oh-10,this.oh+10);
 
+    /* play with rotation */
+    this.rot =radians(mouseX)
   }
+
 }
