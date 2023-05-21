@@ -24,6 +24,10 @@ class Blob{
       this.time2=0;
       this.freq2 = _freq*getRandomFloat(0.75,0.95);
       this.rot=0;
+
+      this.pos = createVector(_x, _y);
+      this.vel = createVector(0, 0);
+      this.acc = createVector(0, 0);
     }
   
     display(){
@@ -31,7 +35,7 @@ class Blob{
      
       tint(255,255);
       push();
-      translate(this.x+this.offsetx+this.ox, this.y+this.offsety + this.oy);
+      translate(this.pos.x+this.offsetx+this.ox, this.pos.y+this.offsety + this.oy);
       // rotate(this.rot);
       // translate(-this.w/2,-this.h/2)
       image(this.blobImg,0 , 0, this.w, this.h);
@@ -42,8 +46,8 @@ class Blob{
     }
   
     displayAnchor(){
-      let x = this.x + this.ox +this.offsetx;
-      let y = this.y + this.oy +this.offsety;
+      let x = this.pos.x + this.ox +this.offsetx;
+      let y = this.pos.y + this.oy +this.offsety;
       tint(255,255);
       noStroke();
       fill(255,0,0);
@@ -93,7 +97,84 @@ class Blob{
         this.rot =radians(mouseX)
       }
     }
+
+    updatePhysics(){
+      this.vel.add(this.acc);
+      this.pos.add(this.vel);
+      this.acc.mult(0);
+      this.vel.set(constrain(this.vel.x,-5,5),constrain(this.vel.y,-5,5));
+
+     
+      // push()
+      // translate(this.pos.x, this.pos.y);
+      // fill(0,255,0);
+      // // ellipse(0,0,10,10)
+      // noStroke()
+      // pop()
+    }
     pausePlay(_play){
       this.play=_play;
     }
-  }
+    // Add an attraction force to the particle
+    attract() {
+      let self = createVector(this.x,this.y)
+      let other = createVector(mouseX,mouseY)
+      let force = p5.Vector.sub(this.pos, self);
+      let distance = force.mag();
+
+      if(distance<200){
+        distance = constrain(distance, 1, 200);
+        force.normalize();
+        let strength = (1 - distance / 25) * 2.5;
+        force.mult(strength);
+        return force;
+      }else{
+        return 0;
+        // distance = constrain(distance, 2, 26);
+        // force.normalize();
+        // let strength = (1 - distance / 25) * -0.000001;
+        // force.mult(strength);
+        // return force;
+      }
+    }
+
+    // Add a repulsion force to the particle
+    repel(other) {
+      let force = p5.Vector.sub(this.pos, other);
+      let distance = force.mag();
+      if(distance<200){
+      
+        distance = constrain(distance, 1, 200);
+        force.normalize();
+        let strength = (1 - distance / 2) * (-0.09);
+        force.mult(strength);
+      
+        return force;
+      }else{
+        return 0;
+        // distance = constrain(distance, 0.1, 25);
+        // force.normalize();
+        // let strength = (1 - distance / 2) * (-0.00005);
+        // force.mult(strength);
+        
+        // return force;
+      }
+    }
+}
+
+
+function repelMouse(){
+  let other = createVector(mouseX, mouseY);
+  fill(255,0,100)
+  ellipse(other.x,other.y,20,20)
+  tBlobs.forEach( element=>{
+    let repulsion = element.repel(other);
+    let attraction = element.attract();
+    element.acc.add(attraction);
+    element.acc.add(repulsion);
+    element.updatePhysics()
+  })
+  
+        // particle.acc.add(attraction);
+        
+}
