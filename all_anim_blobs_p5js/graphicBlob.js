@@ -42,7 +42,7 @@ class Blob{
       image(this.blobImg,0 , 0, this.w, this.h);
       pop();
      
-      // this.update();
+      this.update();
       
     }
   
