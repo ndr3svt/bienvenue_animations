@@ -20,10 +20,10 @@ let toggleDispBlobs=true;
 let toggleUpdatePlay=true;
 
 function preload() {
-  imageBackground = loadImage("animation_B_background.png");
+  imageBackground = loadImage("imgs/B/background.png");
   // blobs = loadImage("animation_1_blobs.png");
-  blobSmall = loadImage("blob_small.png");
-  blobSmallMirr = loadImage("blob_small_mirrored.png");
+  blobSmall = loadImage("imgs/B/blob_small.png");
+  blobSmallMirr = loadImage("imgs/B/blob_small_mirrored.png");
 }
 
 function positions(){
@@ -35,34 +35,81 @@ function positions(){
       let x = Math.floor(index / width);
       
       let freq = getRandomFloat(0.01,0.015);
-      // let freq = getRandomFloat(0.1,0.1);
-
-      
+      /* value to displace y */
+      let addY = (y == 1 || y == 2) ? 12/mainScaleFactor*y : 0;
       /* for top and bottom rows */
       if(y !== 1){ 
         if(x % 2 !== 0 && x!==0){
-          let sW = blobSmall.width/scaleFactorBlob*1.5;
-          let sH = blobSmall.height/scaleFactorBlob*1.45;
-          let offsetX = (blobSmall.width/scaleFactorBlob*0.5);
-          let offsetY = blobSmall.height/scaleFactorBlob *0.25;
-          tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob - offsetX , y*blobSmall.height/scaleFactorBlob -offsetY, sW,sH,'small', freq)
+          
+          if(x > 3){
+            let sW = blobSmall.width/scaleFactorBlob*1.2;
+            let sH = blobSmall.height/scaleFactorBlob*1.2;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.0);
+            let offsetY = blobSmall.height/scaleFactorBlob *0.1 ;
+            tBlobs[index] = new Blob( (7-x+4) * blobSmall.width/scaleFactorBlob - (blobSmall.width/scaleFactorBlob*0.15 * (7-x) ) - 120/mainScaleFactor, y*blobSmall.height/scaleFactorBlob- offsetY + addY, sW, sH, 'small_mirrored', freq);
+          }else{
+            let sW = blobSmall.width/scaleFactorBlob*1.2;
+            let sH = blobSmall.height/scaleFactorBlob*1.2;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.30);
+            let offsetY = blobSmall.height/scaleFactorBlob *0.1;
+            tBlobs[index] =new Blob((x*blobSmall.width/scaleFactorBlob*0.85) - offsetX  , y*blobSmall.height/scaleFactorBlob -offsetY + addY, sW,sH,'small', freq)
+          }
         } 
         else{
-          tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small', freq)
+          
+          if(x > 3){
+            let sW = blobSmall.width/scaleFactorBlob;
+            let sH = blobSmall.height/scaleFactorBlob;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.25);
+            tBlobs[index] = new Blob( (7-x+5) * blobSmall.width/scaleFactorBlob - (blobSmall.width/scaleFactorBlob*0.15 * (7-x+1) ) - 324/mainScaleFactor, y*blobSmall.height/scaleFactorBlob+ addY, sW, sH, 'small_mirrored', freq);
+          }else{
+            let sW = blobSmall.width/scaleFactorBlob;
+            let sH = blobSmall.height/scaleFactorBlob;
+            tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob*0.85, y*blobSmall.height/scaleFactorBlob+addY, sW, sH,'small', freq)
+
+          }
         }
       }else{
+        // reverses the order of the x
+        let rev_x = 7 - x 
         /* for middle row we need to use the objects mirrored and arrange them differently */
-        if(x % 2 !== 0 && x!==0){
-          /* 5-x reverses the order */
-          let sW = blobSmall.width/scaleFactorBlob*1.5;
-          let sH = blobSmall.height/scaleFactorBlob*1.45;
-          let offsetY = blobSmall.height/scaleFactorBlob *0.25;
-          tBlobs[index] =new Blob((7-x)*blobSmall.width/scaleFactorBlob , y*blobSmall.height/scaleFactorBlob -offsetY, sW,sH,'small_mirrored', freq)
-          
+        if(rev_x % 2 !== 0 && rev_x!==0){
+         
+          if(rev_x > 3){
+            // 5 and 7 
+            let sW = blobSmall.width/scaleFactorBlob;
+            let sH = blobSmall.height/scaleFactorBlob;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.0);
+            tBlobs[index] = new Blob( (7-rev_x+4) * blobSmall.width/scaleFactorBlob - (blobSmall.width/scaleFactorBlob*0.15 * (7-rev_x) ) - 120/mainScaleFactor, y*blobSmall.height/scaleFactorBlob +addY , sW, sH, 'small', freq);
+          }else{
+            // 2 and 4 
+            let sW = blobSmall.width/scaleFactorBlob;
+            let sH = blobSmall.height/scaleFactorBlob;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.1);
+            let offsetY = blobSmall.height/scaleFactorBlob *0.1 ;
+            tBlobs[index] =new Blob((rev_x*blobSmall.width/scaleFactorBlob*0.85) - offsetX  , y*blobSmall.height/scaleFactorBlob +addY, sW,sH,'small_mirrored', freq)
+          }
         } 
         else{
-          /* 5-x reverses the order */
-          tBlobs[index] =new Blob((7-x)*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small_mirrored', freq)
+          
+          if(rev_x > 3){
+            //  6 and 8
+            let sW = blobSmall.width/scaleFactorBlob*1.2;
+            let sH = blobSmall.height/scaleFactorBlob*1.2;
+            let offsetY = blobSmall.height/scaleFactorBlob *0.1 ;
+            let offsetX = (blobSmall.width/scaleFactorBlob*0.25);
+            tBlobs[index] = new Blob( (7-rev_x+4) * blobSmall.width/scaleFactorBlob - (blobSmall.width/scaleFactorBlob*0.15 * (7-rev_x) ) - 184/mainScaleFactor, y*blobSmall.height/scaleFactorBlob - offsetY +addY, sW, sH, 'small', freq);
+
+            // tBlobs[index] = new Blob( (7-rev_x+4+1) * blobSmall.width/scaleFactorBlob - (blobSmall.width/scaleFactorBlob*0.25 * (7-rev_x+1)  ) - 324/mainScaleFactor, y*blobSmall.height/scaleFactorBlob -offsetY, sW, sH, 'small', freq);
+          }else{
+            // 1 and 3
+            let sW = blobSmall.width/scaleFactorBlob*1.2;
+            let sH = blobSmall.height/scaleFactorBlob*1.2;
+            let offsetY = blobSmall.height/scaleFactorBlob *0.1 ;
+            tBlobs[index] =new Blob(rev_x*blobSmall.width/scaleFactorBlob*0.85, y*blobSmall.height/scaleFactorBlob -offsetY + addY, sW, sH,'small_mirrored', freq)
+            console.log('x:' + rev_x + ', ' + rev_x)
+
+          }
         }
       }
       // console.log(`index: ${index}, x: ${x}, y: ${y}`);
@@ -87,12 +134,11 @@ function draw() {
   }
   
   push();
-  translate(124/mainScaleFactor,124/mainScaleFactor);
+  translate(215/mainScaleFactor,124/mainScaleFactor);
   
   if(toggleDispBlobs){
     
     /* drawing third row */
-    // for(let i = 0; i<tBlobs.length-1;i++){
     tBlobs.forEach( (el, i)=>{
       let y = i % 3;
       let x = Math.floor(i/6);

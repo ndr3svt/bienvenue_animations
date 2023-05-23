@@ -18,23 +18,21 @@ let toggleDispBlobs=true;
 let toggleUpdatePlay=true;
 
 function preload() {
-  imageBackground = loadImage("imgs/A/background.png");
-  blobSmall = loadImage("imgs/A/blob_small.png");
-  blobSmallMirr = loadImage("imgs/A/blob_small_mirrored.png");
+  imageBackground = loadImage("imgs/D/background.png");
+  blobSmall = loadImage("imgs/D/blob.png");
+  blobSmallMirr = loadImage("imgs/D/blob_mirrored.png");
 }
 
 function positions(){
-  let width = cols = 3;
-  let height = rows = 6;
+  let width = rows = 3;
+  let height = cols = 8;
 
   for(let index = 0; index <= (cols*rows)-1; index++) {
       let y = index % width;
       let x = Math.floor(index / width);
       
       let freq = getRandomFloat(0.01,0.015);
-      // let freq = getRandomFloat(0.1,0.1);
-
-      
+  
       /* for top and bottom rows */
       if(y !== 1){ 
         if(x % 2 !== 0 && x!==0){
@@ -54,12 +52,12 @@ function positions(){
           let sW = blobSmall.width/scaleFactorBlob*1.5;
           let sH = blobSmall.height/scaleFactorBlob*1.45;
           let offsetY = blobSmall.height/scaleFactorBlob *0.25;
-          tBlobs[index] =new Blob((5-x)*blobSmall.width/scaleFactorBlob , y*blobSmall.height/scaleFactorBlob -offsetY, sW,sH,'small_mirrored', freq)
+          tBlobs[index] =new Blob((7-x)*blobSmall.width/scaleFactorBlob , y*blobSmall.height/scaleFactorBlob -offsetY, sW,sH,'small_mirrored', freq)
           
         } 
         else{
           /* 5-x reverses the order */
-          tBlobs[index] =new Blob((5-x)*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small_mirrored', freq)
+          tBlobs[index] =new Blob((7-x)*blobSmall.width/scaleFactorBlob, y*blobSmall.height/scaleFactorBlob, blobSmall.width/scaleFactorBlob, blobSmall.height/scaleFactorBlob,'small_mirrored', freq)
         }
       }
       // console.log(`index: ${index}, x: ${x}, y: ${y}`);

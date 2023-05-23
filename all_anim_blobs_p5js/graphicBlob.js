@@ -25,7 +25,7 @@ class Blob{
       this.freq2 = _freq*getRandomFloat(0.75,0.95);
       this.rot=0;
 
-      this.pos = createVector(_x, _y);
+      this.pos = createVector(_x +this.w/2 , _y+this.h/2);
       this.vel = createVector(0, 0);
       this.acc = createVector(0, 0);
     }
@@ -38,10 +38,11 @@ class Blob{
       translate(this.pos.x+this.offsetx+this.ox, this.pos.y+this.offsety + this.oy);
       // rotate(this.rot);
       // translate(-this.w/2,-this.h/2)
+      imageMode(CENTER)
       image(this.blobImg,0 , 0, this.w, this.h);
       pop();
      
-      this.update();
+      // this.update();
       
     }
   
@@ -51,7 +52,7 @@ class Blob{
       tint(255,255);
       noStroke();
       fill(255,0,0);
-      ellipse(x+this.w/2,y+this.h/2,3,3);
+      ellipse(x,y,3,3);
       if(toggleBckgrnd){
         stroke(0,255,0);
         strokeWeight(0.5);
@@ -60,7 +61,7 @@ class Blob{
         line(x,y-15,x,y+15)
         strokeWeight(0.5);
         stroke(255,255,0);
-      
+        rectMode(CENTER)
         rect(x,y,this.w,this.h)
       }
     }
@@ -130,11 +131,6 @@ class Blob{
         return force;
       }else{
         return 0;
-        // distance = constrain(distance, 2, 26);
-        // force.normalize();
-        // let strength = (1 - distance / 25) * -0.000001;
-        // force.mult(strength);
-        // return force;
       }
     }
 
@@ -152,12 +148,6 @@ class Blob{
         return force;
       }else{
         return 0;
-        // distance = constrain(distance, 0.1, 25);
-        // force.normalize();
-        // let strength = (1 - distance / 2) * (-0.00005);
-        // force.mult(strength);
-        
-        // return force;
       }
     }
 }
@@ -174,7 +164,5 @@ function repelMouse(){
     element.acc.add(repulsion);
     element.updatePhysics()
   })
-  
-        // particle.acc.add(attraction);
         
 }
