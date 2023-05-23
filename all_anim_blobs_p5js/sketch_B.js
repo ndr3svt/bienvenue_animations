@@ -71,7 +71,7 @@ function positions(){
         }
       }else{
         // reverses the order of the x
-        let rev_x = 7 - x 
+        let rev_x = 7 - x ;
         /* for middle row we need to use the objects mirrored and arrange them differently */
         if(rev_x % 2 !== 0 && rev_x!==0){
          
