@@ -18,11 +18,12 @@ class Blob{
       this.w = _w;
       this.h = _h;
       this.scale =1;
+      this.horScale=1;
       this.oscOpacity=255;
       this.time = 0;
-      this.freq= _freq*getRandomFloat(0.45,0.55);
+      // this.freq= _freq*getRandomFloat(0.45,0.55);
       this.time2=0;
-      this.freq2 = _freq*getRandomFloat(0.75,0.95);
+      // this.freq2 = _freq*getRandomFloat(0.75,0.95);
       this.rot=0;
 
       this.pos = createVector(_x +this.w/2 , _y+this.h/2);
@@ -39,10 +40,11 @@ class Blob{
       // rotate(this.rot);
       // translate(-this.w/2,-this.h/2)
       imageMode(CENTER)
+      scale(this.horScale,1);
       image(this.blobImg,0 , 0, this.w, this.h);
       pop();
      
-      this.update();
+      // this.update();
       
     }
   
@@ -64,6 +66,120 @@ class Blob{
         rectMode(CENTER)
         rect(x,y,this.w,this.h)
       }
+    }
+    updateInput(type, _i){
+      
+      switch (type){
+
+        case 'A':
+          if(_i == 0){
+            // console.log('t1:' + this.time , 't2:'+this.time2)
+          }
+          this.time += 0.005;
+          this.time2 += 0.01;
+          // let y = _i % 3;
+          // let x = Math.floor(_i / 3);
+          if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 || _i == 12 || _i == 15){
+            this.scale =map(Math.sin(this.time2),0,1,1.125,1.25) * map(_i, 0,15, 1,1.1);
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
+            this.oy = -map(Math.sin(this.time2), -1,1,0,15);
+          }
+          if(_i == 16 || _i == 13 || _i == 10 || _i == 7 || _i == 4 || _i == 1 ){
+            this.scale =map(Math.sin(this.time),0,1,1.125,1.25) * map(_i, 16,1, 1,1.1);
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
+          }
+          if(_i == 2 || _i == 5 || _i == 8 || _i == 11 || _i == 14 || _i == 17 ){
+            this.oy = map(Math.sin(this.time2), -1,1,0,15);
+            this.scale =map(Math.sin(this.time2),0,1,1.125,1.25) * map(_i, 0,15, 1,1.1);
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
+          }
+          // fill(255,0,0);
+          // textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox -25 , this.pos.y+this.offsety + this.oy)
+
+          break;
+        case 'B':
+          let indexes = new Map([
+            [0,1],
+            [3,2],
+            [6,3],
+            [9,4],
+            [12,1],
+            [15,2],
+            [18,3],
+            [21,4],
+            [13,1],
+            [16,2],
+            [19,3],
+            [22,4],
+            [1,1],
+            [4,2],
+            [7,3],
+            [10,4],
+            [2,1],
+            [5,2],
+            [8,3],
+            [11,4],
+            [14,1],
+            [17,2],
+            [20,3],
+            [23,4],
+          ]);
+          // this.time +=0.001 +0.002*(indexes.get(_i));
+          
+          // if(Math.sin(this.time)<0){
+          //   this.wait += 0.1;
+          // }else{
+          //   // this.time+=0.01
+          // }
+          // console.log(this.scale)
+          // this.w = this.scale*this.ow;
+          // this.time += 0.01 + 0.002*(indexes.get(_i)*4);
+          // this.w = (map(Math.sin(this.time),-1,1,-1,1)) * this.ow;
+          // console.log(indexes)
+          if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 ){
+            this.time += 0.01 + 0.001*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          if(_i == 21 || _i == 18 ||_i == 15 || _i == 12 ){
+            this.time += 0.01 + 0.001*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          if(_i == 13 || _i == 16 ||_i == 19 || _i == 22 ){
+            this.time += 0.01 + 0.002*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          if(_i == 1 || _i == 4 ||_i == 7 || _i == 10 ){
+            this.time += 0.01 + 0.002*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          if(_i == 2 || _i == 5 ||_i == 8 || _i == 11 ){
+            this.time += 0.01 + 0.001*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          if(_i == 23 || _i == 20 ||_i == 17 || _i == 14 ){
+            this.time += 0.01 + 0.001*(indexes.get(_i));
+            this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          }
+          // fill(255,0,0);
+          // textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox +25 , this.pos.y+this.offsety + this.oy)
+          break;
+        case 'C':
+          fill(255,0,0);
+          textSize(12)
+          text(_i, this.pos.x+this.offsetx+this.ox +25 , this.pos.y+this.offsety + this.oy)
+          break;
+        case 'D':
+          break;
+        case 'E':
+          break;
+      }
+
+
     }
     update(){
       if(this.play){

@@ -89,12 +89,13 @@ function draw() {
   if(toggleDispBlobs){
     
     /* drawing third row */
-    // for(let i = 0; i<tBlobs.length-1;i++){
     tBlobs.forEach( (el, i)=>{
       let y = i % 3;
       let x = Math.floor(i/6);
       if(y==2){
         el.display();
+        // (_x, _y, _w, _h, _freq, _scale, _i)
+        el.updateInput('A', i);
       }
     });
     /* drawing second row */
@@ -103,6 +104,7 @@ function draw() {
       let x = Math.floor(i/6);
       if(y==1){
         el.display();
+        el.updateInput('A',i);
       }
     });
 
@@ -112,13 +114,14 @@ function draw() {
       let x = Math.floor(i/6);
       if(y==0){
         el.display();
+        el.updateInput('A',i);
       }
     })
     
   }else{
     
     tBlobs.forEach( (el)=>{
-      el.update();
+      // el.update();
     });
     
   }
