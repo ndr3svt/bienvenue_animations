@@ -10,6 +10,7 @@ class Blob{
       this.type = _type;
       this.wait = 0;
       this.dir = 0.01;
+      this.dirD = 0.001;
       if(_type == "small"){
         this.blobImg = blobSmall;
       }else if(_type =="small_mirrored"){
@@ -39,7 +40,7 @@ class Blob{
       tint(255,255);
       push();
       translate(this.pos.x+this.offsetx+this.ox, this.pos.y+this.offsety + this.oy);
-      // rotate(this.rot);
+      rotate(radians(this.rot));
       // translate(-this.w/2,-this.h/2)
       imageMode(CENTER)
       scale(this.horScale,1);
@@ -102,9 +103,9 @@ class Blob{
                 
               
               if(this.dir>0){
-                this.dir=map(this.time,0,2,0.01,0.08 + 0.005*indexesA.get(_i))
+                this.dir=map(this.time,0,2,0.001,0.08 + 0.005*indexesA.get(_i))
               }else{
-                this.dir=map(this.time,2,0,-0.08 -0.005*indexesA.get(_i),-0.01)
+                this.dir=map(this.time,2,0,-0.08 -0.005*indexesA.get(_i),-0.001)
               }
               
               this.time +=this.dir; 
@@ -148,7 +149,7 @@ class Blob{
 
           break;
         case 'B':
-          let indexes = new Map([
+          let indexesB = new Map([
             [0,1],
             [3,2],
             [6,3],
@@ -176,25 +177,17 @@ class Blob{
           ]);
           // this.time +=0.001 +0.002*(indexes.get(_i));
           
-          // if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 || _i == 21 || _i == 18 ||_i == 15 || _i == 12){
-            // if(this.wait<1){
-            //   this.wait+=0.01;
-            // }else{
-            //   this.wait=0;
-            //   this.dir*=-1;
-            //   this.time +=this.dir; 
-            // }
+     
             if(this.time<=2 && this.time>=0){
               if(this.wait<1.5 && this.dir>0){
-                // this.time=0;
                 this.wait+=0.01;
               }else{
                   
                 
                 if(this.dir>0){
-                  this.dir=map(this.time,0,2,0.01,0.08 + 0.005*indexes.get(_i))
+                  this.dir=map(this.time,0,2,0.01,0.08 + 0.005*indexesB.get(_i))
                 }else{
-                  this.dir=map(this.time,2,0,-0.08 -0.005*indexes.get(_i),-0.01)
+                  this.dir=map(this.time,2,0,-0.08 -0.005*indexesB.get(_i),-0.01)
                 }
                 
                 this.time +=this.dir; 
@@ -204,30 +197,19 @@ class Blob{
                 this.dir*=-1;
                 this.time +=this.dir; 
             }
-          // }
-          // console.log(this.time)
-          // if(Math.sin(this.time)<0){
-          //   this.wait += 0.1;
-          // }else{
-          //   // this.time+=0.01
-          // }
-          // console.log(this.scale)
-          // console.log( 0.5 - Math.sin(this.time)*0.5)
+          // this.rot= map(this.time,0,2,0,-40)
           this.w = map(this.time,0,2,1,0.0)*this.ow
-          // this.w =( 0.5 - Math.sin(this.time)*0.5) * this.ow;
-          // this.time += 0.01 + 0.002*(indexes.get(_i)*4);
-          // this.w = (map(Math.sin(this.time),-1,1,-1,1)) * this.ow;
-          // console.log(indexes)
-          
-          
-          // if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 ){
+
+          if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 ){
+            this.rot= map(this.time,0,2,0,-40)
           //   this.time += 0.01 + 0.001*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
-          // }
-          // if(_i == 21 || _i == 18 ||_i == 15 || _i == 12 ){
+          }
+          if(_i == 21 || _i == 18 ||_i == 15 || _i == 12 ){
+            this.rot= map(this.time,0,2,0,40)
           //   this.time += 0.01 + 0.001*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
-          // }
+          }
           // if(_i == 13 || _i == 16 ||_i == 19 || _i == 22 ){
           //   this.time += 0.01 + 0.002*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
@@ -236,26 +218,182 @@ class Blob{
           //   this.time += 0.01 + 0.002*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
           // }
-          // if(_i == 2 || _i == 5 ||_i == 8 || _i == 11 ){
+          if(_i == 2 || _i == 5 ||_i == 8 || _i == 11 ){
           //   this.time += 0.01 + 0.001*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
-          // }
-          // if(_i == 23 || _i == 20 ||_i == 17 || _i == 14 ){
+            this.rot= map(this.time,0,2,0,40)
+          }
+          if(_i == 23 || _i == 20 ||_i == 17 || _i == 14 ){
           //   this.time += 0.01 + 0.001*(indexes.get(_i));
           //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
-          // }
+            this.rot= map(this.time,0,2,0,-40)
+          }
           // fill(255,0,0);
           // textSize(12)
           // text(_i, this.pos.x+this.offsetx+this.ox +25 , this.pos.y+this.offsety + this.oy)
           break;
         case 'C':
-          fill(255,0,0);
-          textSize(12)
-          text(_i, this.pos.x+this.offsetx+this.ox -25 , this.pos.y+this.offsety + this.oy)
+          let indexesC = new Map([
+            [0,1],
+            [3,2],
+            [6,3],
+            [9,4],
+            [12,5],
+            [15,6],
+            [16,1],
+            [13,2],
+            [10,3],
+            [7,4],
+            [4,5],
+            [1,6],
+            [2,1],
+            [5,2],
+            [8,3],
+            [11,4],
+            [14,5],
+            [17,6],
+          ]);
+          if(this.time<=4 && this.time>=0){
+            if(this.wait<1.0 && this.dir>0){
+              // this.time=0;
+              this.wait+=0.01;
+            }else{
+                
+              
+              if(this.dir>0){
+                this.dir=map(this.time,0,2,0.001,0.08 + 0.005*indexesC.get(_i))
+              }else{
+                this.dir=map(this.time,2,0,-0.08 -0.005*indexesC.get(_i),-0.001)
+              }
+              
+              this.time +=this.dir; 
+              // this.time2 += this.dir*1.15;
+            }
+          }else{
+            this.wait=0
+              this.dir*=-1;
+              this.time +=this.dir; 
+              // this.time2 += this.dir*1.15;
+          }
+          if(_i == 16 || _i==13 || _i==10 || _i==7 || _i==4 || _i==1){
+            this.rot = map(this.time,0,4,0,-35)
+          }else{
+            this.rot = map(this.time,0,4,0,-35)
+          }
+          // this.oy = map(this.time,0,4,0,50);
+          
           break;
         case 'D':
+          let indexesD = new Map([
+            [15,1],
+            [12,2],
+            [9,3],
+            [6,4],
+            [3,5],
+            [0,6],
+            [1,1],
+            [4,2],
+            [7,3],
+            [10,4],
+            [13,5],
+            [16,6],
+            [17,1],
+            [14,2],
+            [11,3],
+            [8,4],
+            [5,5],
+            [2,6],
+          ]);
+          if(this.time<=4 && this.time>=0){
+            if(this.wait<1.0 && this.dirD>0){
+              // this.time=0;
+              this.wait+=0.01;
+            }else{
+                
+              
+              if(this.dirD>0){
+                this.dirD=map(this.time,0,2,0.001,0.08 + 0.005*indexesD.get(_i))
+              }else{
+                this.dirD=map(this.time,2,0,-0.08 -0.005*indexesD.get(_i),-0.001)
+              }
+              
+              this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
+            }
+          }else{
+            this.wait=0
+              this.dirD*=-1;
+              this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
+          }
+          if(_i == 16 || _i==13 || _i==10 || _i==7 || _i==4 || _i==1){
+            this.oy = map(this.time,2,4,25,50);
+            this.rot = map(this.time,0,4,0,-20);
+          }else{
+            this.oy = map(this.time,0,4,0,50);
+            this.rot = map(this.time,0,4,0,-20);
+          }
+         
+    
+          /* play with the scale */
+          // this.scale =map(Math.sin(this.time2), -1,1,0.85,1.15);
+          // this.w = this.ow*this.scale;
+          // this.h = this.oh*this.scale;
+
+          
           break;
         case 'E':
+          let indexesE = new Map([
+            [0,1],
+            [3,2],
+            [6,3],
+            [9,4],
+            [12,5],
+            [15,6],
+            [16,1],
+            [13,2],
+            [10,3],
+            [7,4],
+            [4,5],
+            [1,6],
+            [2,1],
+            [5,2],
+            [8,3],
+            [11,4],
+            [14,5],
+            [17,6],
+          ]);
+          if(this.time<=8 && this.time>=0){
+            if(this.wait<1.0 && this.dirD>0){
+              // this.time=0;
+              this.wait+=0.01;
+            }else{
+                
+              
+              if(this.dirD>0){
+                this.dirD=map(this.time,0,4,0.005,0.08 + 0.01*indexesE.get(_i))
+              }else{
+                this.dirD=map(this.time,4,0,-0.08 -0.01*indexesE.get(_i),-0.005)
+              }
+              
+              this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
+            }
+          }else{
+            this.wait=0
+              this.dirD*=-1;
+              this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
+          }
+          if(_i == 15 || _i == 12 || _i ==9 || _i ==6 || _i ==3 || _i ==0 ){
+            this.oy = map(this.time,0,4,0,120);
+          }else{
+            this.oy = map(this.time,0,4,0,50);
+          }
+         
+          fill(255,0,0);
+          textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox  , this.pos.y+this.offsety + this.oy);
           break;
       }
 
