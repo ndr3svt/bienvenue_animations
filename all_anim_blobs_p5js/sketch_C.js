@@ -96,6 +96,7 @@ function draw() {
       let x = Math.floor(i/6);
       if(y==2){
         el.display();
+        el.updateInput('C',i);
       }
     });
     /* drawing second row */
@@ -104,6 +105,7 @@ function draw() {
       let x = Math.floor(i/6);
       if(y==1){
         el.display();
+        el.updateInput('C',i);
       }
     });
 
@@ -113,6 +115,7 @@ function draw() {
       let x = Math.floor(i/6);
       if(y==0){
         el.display();
+        el.updateInput('C',i);
       }
     })
     
