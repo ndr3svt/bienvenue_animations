@@ -37,7 +37,9 @@ class Blob{
       this.time = 0;
       this.stop =false
       this.triggered=false;
+      // this.freq= _freq*getRandomFloat(0.45,0.55);
       this.time2=0;
+      // this.freq2 = _freq*getRandomFloat(0.75,0.95);
       this.rot=0;
 
       this.pos = createVector(_x +this.w/2 , _y+this.h/2);
@@ -46,11 +48,13 @@ class Blob{
     }
 
     display(){
+      // tint(255,this.oscOpacity);
      
       tint(255,255);
       push();
       translate(this.pos.x+this.offsetx+this.ox, this.pos.y+this.offsety + this.oy);
       rotate(radians(this.rot));
+      // translate(-this.w/2,-this.h/2)
       imageMode(CENTER)
       scale(this.horScale,this.vertScale);
       image(this.blobImg,0 , 0, this.w, this.h);
@@ -186,6 +190,9 @@ class Blob{
             [20,3],
             [23,4],
           ]);
+          // this.time +=0.001 +0.002*(indexes.get(_i));
+          
+     
             if(this.time<=2 && this.time>=0){
               if(this.wait<1.5 && this.dir>0){
                 this.wait+=0.01;
@@ -213,12 +220,20 @@ class Blob{
           if(_i == 21 || _i == 18 ||_i == 15 || _i == 12 ){
             this.rot= map(this.time,0,2,0,40)
           }
+         
+          // if(_i == 1 || _i == 4 ||_i == 7 || _i == 10 ){
+          //   this.time += 0.01 + 0.002*(indexes.get(_i));
+          //   this.w = map(Math.sin(this.time),-1,1,-1,1) * this.ow;
+          // }
           if(_i == 2 || _i == 5 ||_i == 8 || _i == 11 ){
             this.rot= map(this.time,0,2,0,40)
           }
           if(_i == 23 || _i == 20 ||_i == 17 || _i == 14 ){
             this.rot= map(this.time,0,2,0,-40)
           }
+          // fill(255,0,0);
+          // textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox +25 , this.pos.y+this.offsety + this.oy)
           break;
         case 'C':
           let indexesC = new Map([
@@ -376,6 +391,7 @@ class Blob{
           ]);
           if(this.time<=8 && this.time>=0){
             if(this.wait<1.0 && this.dirD>0){
+              // this.time=0;
               this.wait+=0.01;
             }else{
                 
@@ -387,20 +403,50 @@ class Blob{
               }
               
               this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
             }
           }else{
             this.wait=0
               this.dirD*=-1;
               this.time +=this.dirD; 
+              // this.time2 += this.dir*3.5;
           }
+          // this.vertScale = map(this.time, 0, 8, 1, -1)
+          // if(_i == 15 || _i == 12 || _i ==9 || _i ==6 || _i ==3 || _i ==0 ){
             this.oy = map(this.time,0,4,0,20); 
             
+          // }else{
+            // this.oy = map(this.time,0,4,0,10);
+          // }
           if(_i == 16 || _i == 13 || _i == 10 || _i == 7 || _i == 4 || _i == 1 ){
             this.updateShape('mirrored', map(this.time,0,8,50,-20));
           }else{
             this.updateShape('normal', map(this.time,0,8,0,50));
           }
-        
+          /** reproducing the A animation  */
+          // if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 || _i == 12 || _i == 15){
+          //   // this.scale =map(Math.sin(this.time2),0,1,1.125,1.25) * map(_i, 0,15, 1,1.1);
+          //   this.scale= map(this.time,0,8,1,1.3)
+          //   this.w = this.ow*this.scale;
+          //   this.h = this.oh*this.scale;
+          //   // this.oy = -map(Math.sin(this.time2), -1,1,0,15);
+          // }
+          // if(_i == 16 || _i == 13 || _i == 10 || _i == 7 || _i == 4 || _i == 1 ){
+          //   // this.scale =map(Math.sin(this.time),0,1,1.125,1.25) * map(_i, 16,1, 1,1.1);
+          //   this.scale= map(this.time,0,8,1,1.5)
+          //   this.w = this.ow*this.scale;
+          //   this.h = this.oh*this.scale;
+          // }
+          // if(_i == 2 || _i == 5 || _i == 8 || _i == 11 || _i == 14 || _i == 17 ){
+          //   // this.oy = map(Math.sin(this.time2), -1,1,0,15);
+          //   this.scale= map(this.time,0,8,1,1.3)
+          //   this.w = this.ow*this.scale;
+          //   this.h = this.oh*this.scale;
+          // }
+         
+          fill(255,0,0);
+          textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox  , this.pos.y+this.offsety + this.oy);
           break;
       }
 
