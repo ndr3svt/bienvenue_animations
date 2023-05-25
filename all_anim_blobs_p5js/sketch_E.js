@@ -42,12 +42,12 @@ function positions(){
         let sH = blobSmall.height/scaleFactorBlob;
         let offsetX = (blobSmall.width/scaleFactorBlob*0.40);
        
-        tBlobs[index] =new Blob( (x-1)*blobSmall.width/scaleFactorBlob *0.80 + ( blobSmall.width/scaleFactorBlob - offsetX),y*blobSmall.height/scaleFactorBlob  , sW,sH,'small', freq)
+        tBlobs[index] =new Blob( (x-1)*blobSmall.width/scaleFactorBlob *0.80 + ( blobSmall.width/scaleFactorBlob - offsetX),y*blobSmall.height/scaleFactorBlob  , sW,sH,'small_custom', freq)
       } else{
         let sW = blobSmall.width/scaleFactorBlob;
         let sH = blobSmall.height/scaleFactorBlob;
         
-        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob *0.80 ,y*blobSmall.height/scaleFactorBlob , sW,sH,'small', freq)
+        tBlobs[index] =new Blob(x*blobSmall.width/scaleFactorBlob *0.80 ,y*blobSmall.height/scaleFactorBlob , sW,sH,'small_custom', freq)
       }
     }else{
       /* for middle row we need to use the objects mirrored and arrange them differently */
@@ -57,12 +57,12 @@ function positions(){
         let sH = blobSmall.height/scaleFactorBlob;
         let offsetX = (blobSmall.width/scaleFactorBlob*0.40);
      
-        tBlobs[index] =new Blob( (rev_x-1)*blobSmall.width/scaleFactorBlob *0.80 + ( blobSmall.width/scaleFactorBlob - offsetX),y*blobSmall.height/scaleFactorBlob  , sW,sH,'small_mirrored', freq)
+        tBlobs[index] =new Blob( (rev_x-1)*blobSmall.width/scaleFactorBlob *0.80 + ( blobSmall.width/scaleFactorBlob - offsetX),y*blobSmall.height/scaleFactorBlob  , sW,sH,'small_custom_mirrored', freq)
       } else{
         let sW = blobSmall.width/scaleFactorBlob;
         let sH = blobSmall.height/scaleFactorBlob;
         
-        tBlobs[index] =new Blob(rev_x*blobSmall.width/scaleFactorBlob *0.80 ,y*blobSmall.height/scaleFactorBlob , sW,sH,'small_mirrored', freq)
+        tBlobs[index] =new Blob(rev_x*blobSmall.width/scaleFactorBlob *0.80 ,y*blobSmall.height/scaleFactorBlob , sW,sH,'small_custom_mirrored', freq)
       }
     }
   }
@@ -84,6 +84,7 @@ function draw() {
   }
   if(toggleBckImg){
     tint(255,255);
+    imageMode(CORNER)
     image(imageBackground, 0, 0,w_m,h_m);
   }
   
@@ -185,8 +186,63 @@ function draw() {
   debugAnchors();
   pop();
   printMouse();
-}
 
+  /* testing moved already to the blob class */
+  // for(let xx= 0; xx<10; xx++){
+  //   customShape(mouseX + 50*xx,mouseY+ 50*xx, 'f')
+  // }
+   
+}
+/* testing moved already to the blob class */
+// function customShape(_x,_y, _type){
+//   if(_type == 'mirrored'){
+//     let py = 50;
+//     let lw = 205;
+//     let lh = 130;
+//     let pg = createGraphics(lw,lh+py);
+//     let fy = py/2;
+//     let gradient = drawingContext.createLinearGradient(0, 0, lw,0);
+//     gradient.addColorStop(1, color(255, 255, 255, 255)); 
+//     gradient.addColorStop(0, color(255, 107, 93, 255));
+//     pg.drawingContext.fillStyle = gradient;
+//     // drawingContext.save();
+//     pg.beginShape()
+//     pg.vertex(0,0)
+//     pg.noStroke()
+//     // pg.quadraticVertex(0,0,0,0);
+//     pg.quadraticVertex(lw/2, 50 , lw, 0);
+//     pg.vertex(lw,0)
+//     pg.vertex(lw,lh+fy)
+//     pg.quadraticVertex(lw/2, lh+50+fy , 0, lh+fy);
+//     pg.vertex(0,fy+lh)
+//     pg.endShape()
+//     imageMode(CENTER)
+//     image(pg,_x,_y,lw,lh)
+//   }else{
+//     let py = 50;
+//     let lw = 205;
+//     let lh = 130;
+//     let pg = createGraphics(lw,lh+py);
+//     let fy = py/2;
+//     let gradient = drawingContext.createLinearGradient(0, 0, lw,0);
+//     gradient.addColorStop(0, color(255, 255, 255, 255)); 
+//     gradient.addColorStop(1, color(255, 107, 93, 255));
+//     pg.drawingContext.fillStyle = gradient;
+//     // drawingContext.save();
+//     pg.noStroke()
+//     pg.beginShape()
+//     pg.vertex(0,fy)
+//     pg.quadraticVertex(lw/2, fy-50 , lw, fy);
+//     pg.vertex(lw,fy)
+//     pg.vertex(lw,fy*2+lh)
+//     pg.quadraticVertex(lw/2, fy*2+lh-50 , 0, fy*2+lh);
+//     pg.vertex(0,fy*2+lh)
+//     pg.endShape()
+//     imageMode(CENTER)
+//     image(pg,_x,_y,lw,lh)
+//   }
+//     // drawingContext.restore();
+// }
 function keyPressed() {
   if (key === 'd' || key === 'D') {
     toggleDebug=!toggleDebug;

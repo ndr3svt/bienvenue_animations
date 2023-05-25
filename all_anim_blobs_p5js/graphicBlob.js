@@ -12,10 +12,19 @@ class Blob{
       this.wait_2=0;
       this.dir = 0.01;
       this.dirD = 0.001;
+      this.py = 50;
+      this.fy = this.py/2;
+      this.lw = 205;
+      this.lh = 130;
+      this.pg = createGraphics(this.lw,this.lh+this.py);
       if(_type == "small"){
         this.blobImg = blobSmall;
       }else if(_type =="small_mirrored"){
         this.blobImg = blobSmallMirr;
+      }else if (_type == "small_custom"){
+        this.blobImg = this.customShape('normal');
+      }else if(_type == "small_custom_mirrored"){
+        this.blobImg = this.customShape('mirrored');
       }
       this.ow = _w;
       this.oh = _h;
@@ -37,7 +46,7 @@ class Blob{
       this.vel = createVector(0, 0);
       this.acc = createVector(0, 0);
     }
-  
+
     display(){
       // tint(255,this.oscOpacity);
      
@@ -290,11 +299,11 @@ class Blob{
             this.time +=this.dir; 
           }
           if( _i== 2 || _i== 5  || _i== 8 || _i== 11 || _i== 14 || _i== 17){
-            this.rot= map(this.time,0,4,0,-40)
-            this.oy = map(Math.sin(this.time),-1,1,-30,30)
+            this.rot= map(this.time,0,4,0,-25)
+            this.oy = map(Math.sin(this.time),-1,1,-10, 10)
           }else{
-            this.rot= map(this.time,0,4,0,-30)
-            this.oy = map(Math.sin(this.time),-1,1,-20,20)
+            this.rot= map(this.time,0,4,0,-25)
+            this.oy = map(Math.sin(this.time),-1,1,-10,10)
           }
           
          
@@ -404,11 +413,16 @@ class Blob{
           }
           // this.vertScale = map(this.time, 0, 8, 1, -1)
           if(_i == 15 || _i == 12 || _i ==9 || _i ==6 || _i ==3 || _i ==0 ){
-            this.oy = map(this.time,0,4,0,120);
+            // this.oy = map(this.time,0,4,0,120);
+            
           }else{
-            this.oy = map(this.time,0,4,0,50);
+            // this.oy = map(this.time,0,4,0,50);
           }
-
+          if(_i == 16 || _i == 13 || _i == 10 || _i == 7 || _i == 4 || _i == 1 ){
+            this.updateShape('mirrored', map(this.time,0,8,50,-25));
+          }else{
+            // this.updateShape('normal', map(this.time,0,8,-50,50));
+          }
           /** reproducing the A animation  */
           // if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 || _i == 12 || _i == 15){
           //   // this.scale =map(Math.sin(this.time2),0,1,1.125,1.25) * map(_i, 0,15, 1,1.1);
@@ -522,6 +536,89 @@ class Blob{
       }else{
         return 0;
       }
+    }
+    updateShape(_type,_val){
+      if(_type == 'mirrored'){
+        // console.log(this.blobImg)
+        let shift_y = map(_val, 50,-50,0,50);
+        this.pg.clear()
+        // let gradient = drawingContext.createLinearGradient(0, 0, this.lw,0);
+        // gradient.addColorStop(1, color(255, 255, 255, 255)); 
+        // gradient.addColorStop(0, color(255, 107, 93, 255));
+        // this.pg.drawingContext.fillStyle = gradient;
+        // this.pg.drawingContext.save();
+        // this.pg.stroke(0,255,0)
+        this.pg.noStroke();
+        this.pg.beginShape()
+        this.pg.vertex(0,shift_y/2)
+        this.pg.quadraticVertex(this.lw/2, _val , this.lw, shift_y/2);
+        this.pg.vertex(this.lw,shift_y/2)
+        this.pg.vertex(this.lw,this.lh+this.fy + shift_y/2)
+        this.pg.quadraticVertex(this.lw/2, this.lh+_val+this.fy , 0, this.lh+this.fy+ shift_y/2);
+        this.pg.vertex(0,this.fy+this.lh + shift_y/2)
+        this.pg.endShape()
+        // this.pg.noFill()
+        // this.pg.rectMode(CORNER)
+        // this.pg.stroke(255,0,0)
+        // this.pg.rect(0,0,this.lw,this.lh+this.fy*2)
+        // this.pg.fill(255,0,0)
+        // this.pg.noStroke()
+        // this.pg.text(_val, 50,50)
+        this.blobImg = this.pg
+        // return this.pg;
+      }else{
+        let shift_y = map(_val, 50,-50,0,50);
+        this.pg.clear()
+        this.pg.noStroke();
+        this.pg.beginShape()
+        this.pg.vertex(0,shift_y)
+        this.pg.quadraticVertex(this.lw/2, _val , this.lw, shift_y);
+        this.pg.vertex(this.lw,shift_y/2)
+        this.pg.vertex(this.lw,this.lh+this.fy + shift_y/2)
+        this.pg.quadraticVertex(this.lw/2, this.lh+_val+this.fy , 0, this.lh+this.fy+ shift_y/2);
+        this.pg.vertex(0,this.fy+this.lh + shift_y/2)
+        this.pg.endShape()
+      }
+    }
+    customShape(_type){
+      if(_type == 'mirrored'){
+        
+        let gradient = drawingContext.createLinearGradient(0, 0, this.lw,0);
+        gradient.addColorStop(1, color(255, 255, 255, 255)); 
+        gradient.addColorStop(0, color(255, 107, 93, 255));
+        this.pg.drawingContext.fillStyle = gradient;
+        this.pg.beginShape()
+        this.pg.vertex(0,0)
+        this.pg.noStroke()
+        this.pg.quadraticVertex(this.lw/2, 50 , this.lw, 0);
+        this.pg.vertex(this.lw,0)
+        this.pg.vertex(this.lw,this.lh+this.fy)
+        this.pg.quadraticVertex(this.lw/2, this.lh+50+this.fy , 0, this.lh+this.fy);
+        this.pg.vertex(0,this.fy+this.lh)
+        this.pg.endShape()
+        // this.pg.noFill()
+        // this.pg.rectMode(CORNER)
+        // this.pg.stroke(255,0,0)
+        // this.pg.rect(0,0,this.lw,this.lh+this.fy*2)
+        return this.pg;
+      }else{
+        let gradient = drawingContext.createLinearGradient(0, 0, this.lw,0);
+        gradient.addColorStop(0, color(255, 255, 255, 255)); 
+        gradient.addColorStop(1, color(255, 107, 93, 255));
+        this.pg.drawingContext.fillStyle = gradient;
+        this.pg.noStroke()
+        this.pg.beginShape()
+        this.pg.vertex(0,this.fy)
+        this.pg.quadraticVertex(this.lw/2, this.fy-50 , this.lw, this.fy);
+        this.pg.vertex(this.lw,this.fy)
+        this.pg.vertex(this.lw,this.fy*2+this.lh)
+        this.pg.quadraticVertex(this.lw/2, this.fy*2+this.lh-50 , 0, this.fy*2+this.lh);
+        this.pg.vertex(0,this.fy*2+this.lh)
+        this.pg.endShape()
+        return this.pg;
+      }
+      // drawingContext.save();
+        // drawingContext.restore();
     }
 }
 
