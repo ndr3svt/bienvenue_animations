@@ -128,6 +128,9 @@ function draw() {
   debugAnchors();
   pop();
   printMouse();
+  let paddedIndex = String(frameCount).padStart(7, '0');
+  // console.log(paddedIndex)
+  // saveCanvas('img_'+paddedIndex, 'png')
 }
 
 function keyPressed() {
@@ -150,7 +153,7 @@ function getRandomFloat(min, max) {
 
 function printMouse(){
   let consola = document.querySelector('#output');
-  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY}`
+  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY} , frame: ${frameCount}`
 }
 
 function debugAnchors(){

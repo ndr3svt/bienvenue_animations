@@ -91,36 +91,89 @@ function draw() {
   translate(215/mainScaleFactor,124/mainScaleFactor);
   
   if(toggleDispBlobs){
-    
-    /* drawing third row */
-    // for(let i = 0; i<tBlobs.length-1;i++){
+
+
+    let remapX = new Map([
+      [0,1],
+      [16,1],
+      [2,1],
+      [3,2],
+      [13,2],
+      [5,2],
+      [6,3],
+      [10,3],
+      [8,3],
+      [9,4],
+      [7,4],
+      [11,4],
+      [12,5],
+      [4,5],
+      [14,5],
+      [15,6],
+      [1,6],
+      [17,6],
+    ]);
+    let remapI = new Map([
+      [0,0],
+      [16,1],
+      [2,2],
+      [3,3],
+      [13,4],
+      [5,5],
+      [6,6],
+      [10,7],
+      [8,8],
+      [9,9],
+      [7,10],
+      [11,11],
+      [12,12],
+      [4,13],
+      [14,14],
+      [15,15],
+      [1,16],
+      [17,17],
+    ]);
+
+   
+    // /* drawing second row */
     tBlobs.forEach( (el, i)=>{
       let y = i % 3;
-      let x = Math.floor(i/6);
-      if(y==2){
-        el.display();
-        el.updateInput('E',i);
-      }
-    });
-    /* drawing second row */
-    tBlobs.forEach( (el, i)=>{
-      let y = i % 3;
-      let x = Math.floor(i/6);
+      let x = Math.floor(i/3);
+      
       if(y==1){
         el.display();
         el.updateInput('E',i);
       }
     });
-
-    /* drawing first row */
-    tBlobs.forEach( (el, i)=>{
+    for(let i = 0; i< 18; i ++){
       let y = i % 3;
-      let x = Math.floor(i/6);
-      if(y==0){
-        el.display();
-        el.updateInput('E',i);
+      let x = Math.floor(i/3);
+      if(y!==1){
+        let remI = remapI.get(i);
+        tBlobs[remI].display()
+        tBlobs[remI].updateInput('E',i) 
       }
-    })
+    }
+    // // // /* drawing third row */
+    // tBlobs.forEach( (el, i)=>{
+    //   let y = i % 3;
+    //   let x = Math.floor(i/3);
+    //   if(y==2){
+    //     el.display();
+    //     el.updateInput('E',i);
+    //   }
+    // });
+
+
+    // // // /* drawing first row */
+    // tBlobs.forEach( (el, i)=>{
+    //   let y = i % 3;
+    //   let x = Math.floor(i/3);
+    //   if(y==0){
+    //     el.display();
+    //     el.updateInput('E',i);
+    //   }
+    // })
     
   }else{
     
@@ -154,7 +207,7 @@ function getRandomFloat(min, max) {
 
 function printMouse(){
   let consola = document.querySelector('#output');
-  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY}`
+  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY} , frame: ${frameCount}`
 }
 
 function debugAnchors(){

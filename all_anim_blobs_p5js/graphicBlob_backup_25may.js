@@ -84,34 +84,34 @@ class Blob{
           let indexesA = new Map([
             [0,1],
             [3,2],
-            [6,1],
-            [9,2],
-            [12,1],
-            [15,2],
+            [6,3],
+            [9,4],
+            [12,5],
+            [15,6],
             [1,1],
             [4,2],
-            [7,1],
-            [10,2],
-            [13,1],
-            [16,2],
+            [7,3],
+            [10,4],
+            [13,5],
+            [16,6],
             [2,1],
             [5,2],
-            [8,1],
-            [11,2],
-            [14,1],
-            [17,2],
+            [8,3],
+            [11,4],
+            [14,5],
+            [17,6],
           ]);
           if(this.time<=2 && this.time>=0){
-            if(this.wait<0.5 && this.dir>0){
+            if(this.wait<1.5 && this.dir>0){
               // this.time=0;
               this.wait+=0.01;
             }else{
                 
               
               if(this.dir>0){
-                this.dir=map(this.time,0,2,0.002,0.03 )
+                this.dir=map(this.time,0,2,0.001,0.08 + 0.005*indexesA.get(_i))
               }else{
-                this.dir=map(this.time,2,0,-0.03,-0.002)
+                this.dir=map(this.time,2,0,-0.08 -0.005*indexesA.get(_i),-0.001)
               }
               
               this.time +=this.dir; 
@@ -123,32 +123,35 @@ class Blob{
               this.time +=this.dir; 
               this.time2 += this.dir*1.15;
           }
-          if(indexesA.get(_i) == 1){
-            this.scale= map(this.time,0,2,1,1.4)
-            this.w = this.ow*this.scale;
-            this.h = this.oh*this.scale;
-          }else{
-            this.scale= map(this.time,0,2,1,0.65)
-            this.w = this.ow*this.scale;
-            this.h = this.oh*this.scale;
-          }
 
+          // this.time += this.dir;
+          // this.time2 += this.dir*1.05;
+          // let y = _i % 3;
+          // let x = Math.floor(_i / 3);
           if(_i == 0 || _i == 3 ||_i == 6 || _i == 9 || _i == 12 || _i == 15){
-            if(indexesA.get(_i) == 1){
-              this.ox = map(this.time,0,2,0,35);
-            }            
+            // this.scale =map(Math.sin(this.time2),0,1,1.125,1.25) * map(_i, 0,15, 1,1.1);
+            this.scale= map(this.time2,0,2,1,1.3)
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
+            // this.oy = -map(Math.sin(this.time2), -1,1,0,15);
           }
           if(_i == 16 || _i == 13 || _i == 10 || _i == 7 || _i == 4 || _i == 1 ){
-            if(indexesA.get(_i) == 1){
-              this.ox = -map(this.time,0,2,0,35);
-            }
+            // this.scale =map(Math.sin(this.time),0,1,1.125,1.25) * map(_i, 16,1, 1,1.1);
+            this.scale= map(this.time,0,2,1,1.5)
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
           }
           if(_i == 2 || _i == 5 || _i == 8 || _i == 11 || _i == 14 || _i == 17 ){
-            if(indexesA.get(_i) == 1){
-              this.ox = map(this.time,0,2,0,35);
-            }
+            // this.oy = map(Math.sin(this.time2), -1,1,0,15);
+            this.scale= map(this.time2,0,2,1,1.3)
+            this.w = this.ow*this.scale;
+            this.h = this.oh*this.scale;
           }
-      
+        
+          
+          // fill(255,0,0);
+          // textSize(12)
+          // text(_i, this.pos.x+this.offsetx+this.ox -25 , this.pos.y+this.offsety + this.oy)
 
           break;
         case 'B':
