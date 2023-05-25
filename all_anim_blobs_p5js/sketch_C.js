@@ -166,7 +166,7 @@ function getRandomFloat(min, max) {
 
 function printMouse(){
   let consola = document.querySelector('#output');
-  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY}`
+  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY} , frame: ${frameCount}`
 }
 
 function debugAnchors(){

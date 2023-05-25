@@ -6,7 +6,12 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
     <script src="graphicBlob.js"></script>
-
+    <script src="src/canvas2image.js"></script>
+    <!-- <script src="http://hongru.github.io/proj/canvas2image/canvas2image.js"></script> -->
+    <!-- <script src="src/CCapture.js" ></script>
+    <script src="src/tar.js" ></script>
+    <script src="src/webm-writer-0.2.0.js" ></script>
+    <script src="src/download.js"></script> -->
   </head>
   <body>
     <main>
@@ -28,9 +33,17 @@
             <label for="checkBoxPlay">Play</label>
             
         </div>
+
+        <image style="opacity: 0;" id="theimage"></image>
+        <div style="position:absolute;bottom:0;left:0"><button onclick="to_image()">Draw to Image</button></div>
         
     </main>
     <!-- <script src="sketch.js"></script> -->
-    <script src="sketch_C.js"></script>
+    <script src="sketch_E.js"></script>
+   
   </body>
 </html>
+
+
+<script>
+ 

@@ -37,7 +37,7 @@ class Blob{
   
     display(){
       // tint(255,this.oscOpacity);
-     
+      
       tint(255,255);
       push();
       translate(this.pos.x+this.offsetx+this.ox, this.pos.y+this.offsety + this.oy);

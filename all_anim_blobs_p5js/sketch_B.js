@@ -116,15 +116,17 @@ function positions(){
   }
 
 }
+var can_vas;
 function setup() {
   w_m= w_m/mainScaleFactor;
   h_m = h_m/mainScaleFactor;
   createCanvas(w_m, h_m);
   positions();
-
+  can_vas = document.getElementById("defaultCanvas0");
 }
 
 function draw() {
+  // console.log(frameRate())
   if(toggleBckgrnd){
     background(100,100,125);
   }
@@ -177,6 +179,12 @@ function draw() {
   debugAnchors();
   pop();
   printMouse();
+  let paddedIndex = String(frameCount).padStart(7, '0'); 
+  
+  if( frameCount < 500){
+    // to_image(paddedIndex)
+  }else if (frameCount === 500){
+  }
 }
 
 function keyPressed() {
@@ -199,7 +207,7 @@ function getRandomFloat(min, max) {
 
 function printMouse(){
   let consola = document.querySelector('#output');
-  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY}`
+  consola.innerHTML = `mouseX: ${mouseX}, mouseY: ${mouseY} , frame: ${frameCount}`
 }
 
 function debugAnchors(){
@@ -261,3 +269,11 @@ function togglePlay(){
 }
 
 
+
+
+function to_image(frameNr){
+
+  // console.log(can_vas)
+  document.getElementById("theimage").src = can_vas.toDataURL();
+  Canvas2Image.saveAsPNG(can_vas,can_vas.width,can_vas.height,"img"+frameNr);
+}

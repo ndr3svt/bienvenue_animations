@@ -79,6 +79,7 @@ function setup() {
 }
 
 function draw() {
+  // console.log(frameRate())
   if(toggleBckgrnd){
     background(100,100,125);
   }

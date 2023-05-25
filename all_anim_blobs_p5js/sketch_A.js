@@ -16,8 +16,13 @@ let toggleBckImg =true;
 let toggleBckgrnd=true;
 let toggleDispBlobs=true;
 let toggleUpdatePlay=true;
-
+// let capturer;
 function preload() {
+  // capturer  = new CCapture ({
+  //   format: 'webm',
+  //   framerate: 60,
+  //   verbose: true
+  // });
   imageBackground = loadImage("imgs/A/background.png");
   blobSmall = loadImage("imgs/A/blob_small.png");
   blobSmallMirr = loadImage("imgs/A/blob_small_mirrored.png");
@@ -66,15 +71,22 @@ function positions(){
   }
 
 }
+var can_vas;
+// console.log(can_vas)
 function setup() {
   w_m= w_m/mainScaleFactor;
   h_m = h_m/mainScaleFactor;
   createCanvas(w_m, h_m);
   positions();
+ can_vas = document.getElementById("defaultCanvas0");
 
 }
 
 function draw() {
+  // console.log(can_vas)
+  // if(frameCount == 1){
+  //   capturer.start();
+  // }
   if(toggleBckgrnd){
     background(100,100,125);
   }
@@ -131,6 +143,15 @@ function draw() {
   let paddedIndex = String(frameCount).padStart(7, '0');
   // console.log(paddedIndex)
   // saveCanvas('img_'+paddedIndex, 'png')
+ 
+  if( frameCount < 3100){
+    // to_image(paddedIndex)
+    // console.log(canvas)
+    // capturer.capture(canvas)
+  }else if (frameCount === 3100){
+    // capturer.save()
+    // capturer.stop()
+  }
 }
 
 function keyPressed() {
@@ -214,4 +235,9 @@ function togglePlay(){
   }
 }
 
+function to_image(frameNr){
 
+  // console.log(can_vas)
+  document.getElementById("theimage").src = can_vas.toDataURL();
+  Canvas2Image.saveAsPNG(can_vas,can_vas.width,can_vas.height,"img"+frameNr);
+}
