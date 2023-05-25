@@ -87,6 +87,8 @@ function draw() {
   push();
   translate(250/mainScaleFactor,124/mainScaleFactor);
   
+
+
   if(toggleDispBlobs){
     
     /* drawing third row */
@@ -129,6 +131,19 @@ function draw() {
   debugAnchors();
   pop();
   printMouse();
+  // checking if all are stopped and reseting the animation
+  let allStop = tBlobs.every( obj =>{
+    return obj.hasOwnProperty('stop') && obj.stop == true
+  })
+  if(allStop){
+    tBlobs.forEach( el=>{
+      el.stop =false;
+      el.wait = 0;
+      el.triggered= false;
+      el.dir = 0.01;
+      el.time = 0;
+    })
+  }
 }
 
 function keyPressed() {
