@@ -4,6 +4,8 @@
 expanding the edges towards the borders of either neighbouring edges or
 borders of the image */
 
+// image reference https://en.wikipedia.org/wiki/Strawberry
+// https://upload.wikimedia.org/wikipedia/commons/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg
 
 
 // function that is generating an array list of an array of vectors
@@ -40,7 +42,7 @@ void setup() {
   viewer = new PVector(0,0,0);
   graph = createGraphics(w,h, P2D);
   dots = createGraphics(w,h, P2D);
-  image = loadImage("img22.png");
+  image = loadImage("img2.png");
   imageShader = loadShader("imageShader.glsl");
   imageShader.set("imageSampler", image);
   centroid = new PVector(width/2,height/2);
@@ -197,5 +199,3 @@ class DStrip {
 
 
 }
-
-
