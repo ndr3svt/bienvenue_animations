@@ -4,6 +4,7 @@
 expanding the edges towards the borders of either neighbouring edges or
 borders of the image */
 
+// image reference arcilla2 https://articulo.mercadolibre.com.mx/MLM-1988452603-bola-de-arcilla-esferica-de-espuma-con-forma-de-flor-seca-2-_JM
 // image reference https://en.wikipedia.org/wiki/Strawberry
 // https://upload.wikimedia.org/wikipedia/commons/4/4c/Garden_strawberry_%28Fragaria_%C3%97_ananassa%29_single2.jpg
 
@@ -43,7 +44,7 @@ void setup() {
   graph = createGraphics(w,h, P2D);
   dots = createGraphics(w,h, P2D);
   //image = loadImage("img2.png");
-  image = loadImage("arcilla.png");
+  image = loadImage("arcilla2.png");
   imageShader = loadShader("imageShader.glsl");
   imageShader.set("imageSampler", image);
   centroid = new PVector(width/2,height/2);
