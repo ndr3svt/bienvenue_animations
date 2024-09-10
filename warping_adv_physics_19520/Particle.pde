@@ -243,7 +243,3 @@ testx, testy: X- and y-coordinate of the test point.
 
 
 */
-
-
-
-
