@@ -44,7 +44,7 @@ void setup() {
   graph = createGraphics(w,h, P2D);
   dots = createGraphics(w,h, P2D);
   //image = loadImage("img2.png");
-  image = loadImage("arcilla2.png");
+  image = loadImage("squares.png");
   imageShader = loadShader("imageShader.glsl");
   imageShader.set("imageSampler", image);
   centroid = new PVector(width/2,height/2);
